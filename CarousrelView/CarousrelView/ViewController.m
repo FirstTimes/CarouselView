@@ -27,9 +27,12 @@
     self.images = [NSArray arrayWithObjects:@"lol_0.jpg",@"lol_1.jpg",@"lol_2.jpg",@"lol_3.jpg",@"lol_4.jpg", nil];
 
     self.carousrlView = [[CarouselView alloc]initWithFrame:CGRectMake(0, 0, screenWidth, 300)];
-    [self.carousrlView setContentMode:CarouselViewLayoutVertical andImages:self.images];
+    [self.carousrlView setContentMode:CarouselViewLayoutHorizontal andImages:self.images];
+    self.carousrlView.pagePosition = PageControlPositionBottomMiddle;
     self.carousrlView.delegate = self;
     [self.view addSubview:self.carousrlView];
+    
+    [self.carousrlView autoScrollWithTimeInterval:2.0];
 }
 
 
@@ -38,9 +41,12 @@
     [self.carousrlView changePage];
 }
 
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    [self.carousrlView pauseAutoScroll];
+}
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    [self.carousrlView loopScroll];
+    [self.carousrlView resumeAutoScroll];
 }
 
 - (void)didReceiveMemoryWarning {
